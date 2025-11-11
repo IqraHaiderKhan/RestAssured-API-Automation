@@ -1,3 +1,13 @@
-# RestAssured API Automation Project
+# RestAssured API Automation
 
-This repository contains the base setup for a RestAssured API testing framework.
+RestAssured + TestNG automation framework for API testing
+
+## Tech Stack
+- **Java 17**
+- **RestAssured**
+- **TestNG**
+- **Maven**
+
+## How to Run
+```bash
+mvn clean test
