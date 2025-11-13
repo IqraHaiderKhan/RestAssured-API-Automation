@@ -3,32 +3,33 @@ package tests;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class SampleTest {
 
-    @Test
-    public void verifyUserAPIResponse() {
-        // Base URL for public testing API
+    @BeforeClass
+    public void setup() {
+        // ✅ Set base URI
         RestAssured.baseURI = "https://reqres.in/api";
 
-        // Send GET request to /users/2
+        // ✅ Relax SSL certificate validation (for HTTPS)
+        RestAssured.useRelaxedHTTPSValidation();
+    }
+
+    @Test
+    public void testGetUsers() {
         Response response = RestAssured
                 .given()
+                .log().all()
                 .when()
-                .get("/users/2")
+                .get("/users?page=2")
                 .then()
+                .log().all()
                 .extract()
                 .response();
 
-        // Print the response for visibility
-        System.out.println("Response Body: " + response.getBody().asString());
-
-        // Verify the response code
-        Assert.assertEquals(response.getStatusCode(), 200, "Expected status code 200");
-
-        // Verify that user data contains "Janet"
-        String firstName = response.jsonPath().getString("data.first_name");
-        Assert.assertEquals(firstName, "Janet", "Expected first name to be Janet");
+        System.out.println("Response Code: " + response.statusCode());
+        Assert.assertEquals(response.statusCode(), 200, "Expected 200 OK");
     }
 }

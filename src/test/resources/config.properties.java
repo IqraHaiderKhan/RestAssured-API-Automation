@@ -1,0 +1,4 @@
+# Environment configuration
+base.url=https://reqres.in/api
+timeout=5000
+environment=staging
