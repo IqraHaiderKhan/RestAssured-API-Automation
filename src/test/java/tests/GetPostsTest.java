@@ -6,16 +6,17 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class GetUserByIdTest extends BaseTest {
+public class GetPostsTest extends BaseTest {
 
     ApiClient api = new ApiClient();
 
     @Test
-    public void testGetUserById() {
-        Response response = api.get("/users/1");
+    public void testGetPosts() {
+        Response response = api.get("/posts");
         Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.jsonPath().getInt("id"), 1);
+        Assert.assertTrue(response.jsonPath().getList("$").size() > 0);
     }
 }
+
 
 
