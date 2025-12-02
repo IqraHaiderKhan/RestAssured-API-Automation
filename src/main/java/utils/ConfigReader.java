@@ -5,28 +5,27 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigReader {
+
     private static Properties properties = new Properties();
 
     static {
-        try (FileInputStream fileInputStream = new FileInputStream("src/test/resources/config.properties")) {
-            properties.load(fileInputStream);
+        load();
+    }
+
+    private static void load() {
+        String env = System.getProperty("env", "dev");
+        String filePath = "src/test/resources/config-" + env + ".properties";
+
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            properties.load(fis);
+            System.out.println("Loaded config file: " + filePath);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to load config file: " + filePath, e);
         }
     }
 
-    // Method to retrieve the base URL from the properties file
-    public static String getBaseUrl() {
-        return properties.getProperty("base.url");
-    }
-
-    // Method to retrieve the timeout value from the properties file
-    public static int getTimeout() {
-        return Integer.parseInt(properties.getProperty("timeout"));
-    }
-
-    // Method to retrieve the environment from the properties file
-    public static String getEnvironment() {
-        return properties.getProperty("environment");
+    public static String get(String key) {
+        return properties.getProperty(key);
     }
 }
+

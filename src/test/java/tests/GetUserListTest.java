@@ -1,20 +1,21 @@
 package tests;
 
 import framework.base.BaseTest;
-import framework.client.ApiClient;
-import io.restassured.response.Response;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import io.restassured.RestAssured;
+import org.junit.Test;
+import static org.hamcrest.Matchers.*;
 
 public class GetUserListTest extends BaseTest {
 
-    ApiClient api = new ApiClient();
-
     @Test
     public void testGetUserList() {
-        Response response = api.get("/users");
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertTrue(response.jsonPath().getList("$").size() > 0);
+        RestAssured
+                .given()
+                .when()
+                .get("/users")
+                .then()
+                .statusCode(200)
+                .body("size()", greaterThan(0));
     }
 }
 

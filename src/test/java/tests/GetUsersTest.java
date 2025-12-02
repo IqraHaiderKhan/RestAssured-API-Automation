@@ -1,41 +1,34 @@
 package tests;
 
 import framework.base.BaseTest;
-import framework.constants.Endpoints;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import static org.hamcrest.Matchers.*;
 
 public class GetUsersTest extends BaseTest {
 
     @Test
     public void testGetAllUsers() {
-        Response response = RestAssured
+        RestAssured
                 .given()
                 .when()
-                .get(Endpoints.LIST_USERS)
+                .get("/users")
                 .then()
-                .extract()
-                .response();
-
-        Assert.assertEquals(response.getStatusCode(), 200);
+                .statusCode(200);
     }
 
     @Test
     public void testGetSingleUser() {
-        Response response = RestAssured
+        RestAssured
                 .given()
-                .pathParam("id", 2)
                 .when()
-                .get(Endpoints.SINGLE_USER)
+                .get("/users/1")
                 .then()
-                .extract()
-                .response();
-
-        Assert.assertEquals(response.getStatusCode(), 200);
+                .statusCode(200)
+                .body("id", equalTo(1));
     }
 }
+
 
 
 

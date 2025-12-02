@@ -1,22 +1,22 @@
 package tests;
 
 import framework.base.BaseTest;
-import framework.client.ApiClient;
-import io.restassured.response.Response;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import io.restassured.RestAssured;
+import org.junit.Test;
+import static org.hamcrest.Matchers.*;
 
 public class GetPostsTest extends BaseTest {
 
-    ApiClient api = new ApiClient();
-
     @Test
     public void testGetPosts() {
-        Response response = api.get("/posts");
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertTrue(response.jsonPath().getList("$").size() > 0);
+        RestAssured
+                .given()
+                .when()
+                .get("/posts")
+                .then()
+                .statusCode(200)
+                .body("size()", greaterThan(0));
     }
 }
-
 
 
