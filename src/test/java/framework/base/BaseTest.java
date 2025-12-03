@@ -1,19 +1,18 @@
 package framework.base;
 
-import io.restassured.RestAssured;
-import org.junit.BeforeClass;
-import utils.ConfigReader;
+import framework.client.ApiClient;
+import org.junit.Before;
 
 public class BaseTest {
 
-    @BeforeClass
-    public static void setup() {
-        RestAssured.baseURI = ConfigReader.get("base.url");
+    protected ApiClient apiClient;
 
-        // Allow HTTPS calls without strict SSL validation
-        RestAssured.useRelaxedHTTPSValidation();
+    @Before
+    public void setUp() {
+        apiClient = new ApiClient();
     }
 }
+
 
 
 

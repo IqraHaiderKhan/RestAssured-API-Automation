@@ -1,22 +1,20 @@
 package tests;
 
 import framework.base.BaseTest;
-import io.restassured.RestAssured;
+import framework.validators.ResponseValidator;
+import io.restassured.response.Response;
 import org.junit.Test;
-import static org.hamcrest.Matchers.*;
 
 public class ListUsersTest extends BaseTest {
 
     @Test
     public void testListUsers() {
-        RestAssured
-                .given()
-                .when()
-                .get("/users")
-                .then()
-                .statusCode(200)
-                .body("size()", greaterThan(0));
+        Response response = apiClient.get("users");
+
+        ResponseValidator.validateStatusCode(response, 200);
+        ResponseValidator.validateArraySize(response, "$", 10);
     }
 }
+
 
 
