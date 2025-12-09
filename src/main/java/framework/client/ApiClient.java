@@ -9,27 +9,40 @@ import utils.ConfigReader;
 public class ApiClient {
 
     private final String baseUrl;
-    private final int timeout;
 
     public ApiClient() {
         this.baseUrl = ConfigReader.get("base.url");
-        this.timeout = Integer.parseInt(ConfigReader.get("timeout"));
+
+        System.out.println("API Client Initialized");
+        System.out.println("Base URL: " + baseUrl);
     }
 
     // GET request
     public Response get(String endpoint) {
-        return given()
+
+        System.out.println("GET Request -> " + baseUrl + "/" + endpoint);
+
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .when()
                 .get(baseUrl + "/" + endpoint)
                 .then()
                 .extract()
                 .response();
+
+        System.out.println("Status Code: " + response.statusCode());
+        System.out.println("Response: " + response.asString());
+
+        return response;
     }
 
-    // POST request (this was missing)
+    // POST request
     public Response post(String endpoint, Object body) {
-        return given()
+
+        System.out.println("POST Request -> " + baseUrl + "/" + endpoint);
+        System.out.println("Request Body -> " + body.toString());
+
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .body(body)
                 .when()
@@ -37,8 +50,15 @@ public class ApiClient {
                 .then()
                 .extract()
                 .response();
+
+        System.out.println("Status Code: " + response.statusCode());
+        System.out.println("Response: " + response.asString());
+
+        return response;
     }
 }
+
+
 
 
 
