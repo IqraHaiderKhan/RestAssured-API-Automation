@@ -5,6 +5,7 @@ import static io.restassured.RestAssured.given;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import utils.ConfigReader;
+import framework.utils.LoggerUtil;
 
 public class ApiClient {
 
@@ -13,14 +14,14 @@ public class ApiClient {
     public ApiClient() {
         this.baseUrl = ConfigReader.get("base.url");
 
-        System.out.println("API Client Initialized");
-        System.out.println("Base URL: " + baseUrl);
+        LoggerUtil.log("API Client Initialized");
+        LoggerUtil.log("Base URL: " + baseUrl);
     }
 
     // GET request
     public Response get(String endpoint) {
 
-        System.out.println("GET Request -> " + baseUrl + "/" + endpoint);
+        LoggerUtil.log("GET Request -> " + baseUrl + "/" + endpoint);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -30,8 +31,8 @@ public class ApiClient {
                 .extract()
                 .response();
 
-        System.out.println("Status Code: " + response.statusCode());
-        System.out.println("Response: " + response.asString());
+        LoggerUtil.log("Status Code: " + response.statusCode());
+        LoggerUtil.log("Response: " + response.asString());
 
         return response;
     }
@@ -39,8 +40,8 @@ public class ApiClient {
     // POST request
     public Response post(String endpoint, Object body) {
 
-        System.out.println("POST Request -> " + baseUrl + "/" + endpoint);
-        System.out.println("Request Body -> " + body.toString());
+        LoggerUtil.log("POST Request -> " + baseUrl + "/" + endpoint);
+        LoggerUtil.log("Request Body -> " + body.toString());
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -51,12 +52,13 @@ public class ApiClient {
                 .extract()
                 .response();
 
-        System.out.println("Status Code: " + response.statusCode());
-        System.out.println("Response: " + response.asString());
+        LoggerUtil.log("Status Code: " + response.statusCode());
+        LoggerUtil.log("Response: " + response.asString());
 
         return response;
     }
 }
+
 
 
 
