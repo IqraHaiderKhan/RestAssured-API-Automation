@@ -1,6 +1,6 @@
 package tests;
 
-import framework.base.BaseTest;
+import base.BaseTest;
 import io.restassured.RestAssured;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;

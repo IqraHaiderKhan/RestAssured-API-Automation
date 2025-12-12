@@ -1,6 +1,6 @@
 package tests;
 
-import framework.base.BaseTest;
+import base.BaseTest;
 import framework.validators.ResponseValidator;
 import io.restassured.response.Response;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package tests;
 
-import framework.base.BaseTest;
+import base.BaseTest;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 

@@ -1,6 +1,6 @@
 package tests;
 
-import framework.base.BaseTest;
+import base.BaseTest;
 import framework.data.UserDataFactory;
 import framework.model.User;
 import io.restassured.response.Response;
