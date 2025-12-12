@@ -1,18 +1,28 @@
 package framework.utils;
 
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.specification.RequestSpecification;
-
-import static io.restassured.RestAssured.given;
-
 public class RequestLogger {
 
-    public static RequestSpecification loggedRequest() {
-        return given()
-                .filter(new RequestLoggingFilter())
-                .filter(new ResponseLoggingFilter());
+    public static void logRequest(String method, String url, Object body) {
+        System.out.println("=======================================");
+        System.out.println("API Request");
+        System.out.println("Method: " + method);
+        System.out.println("URL: " + url);
+
+        if (body != null) {
+            System.out.println("Body: " + body.toString());
+        }
+
+        System.out.println("=======================================");
+    }
+
+    public static void logResponse(int statusCode, String responseBody) {
+        System.out.println("----------- Response ------------------");
+        System.out.println("Status Code: " + statusCode);
+        System.out.println("Response Body:");
+        System.out.println(responseBody);
+        System.out.println("=======================================");
     }
 }
+
 
 
