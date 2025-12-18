@@ -1,11 +1,10 @@
 package framework.client;
 
 import static io.restassured.RestAssured.given;
-import framework.utils.ConfigReader;
 
+import framework.utils.ConfigReader;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import framework.utils.HttpHeaders;
 
 import java.util.Map;
 
@@ -15,7 +14,6 @@ public class ApiClient {
 
     public ApiClient() {
         this.baseUrl = ConfigReader.get("base.url");
-
     }
 
     // GET request (default)
@@ -32,6 +30,7 @@ public class ApiClient {
     // GET request with headers
     public Response get(String endpoint, Map<String, String> headers) {
         return given()
+                .contentType(ContentType.JSON)
                 .headers(headers)
                 .when()
                 .get(baseUrl + "/" + endpoint)
@@ -55,6 +54,7 @@ public class ApiClient {
     // POST request with headers
     public Response post(String endpoint, Object body, Map<String, String> headers) {
         return given()
+                .contentType(ContentType.JSON)
                 .headers(headers)
                 .body(body)
                 .when()
