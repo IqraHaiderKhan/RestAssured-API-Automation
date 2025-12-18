@@ -1,10 +1,13 @@
 package framework.client;
 
 import static io.restassured.RestAssured.given;
+import framework.utils.ConfigReader;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import utils.ConfigReader;
+import framework.utils.HttpHeaders;
+
+import java.util.Map;
 
 public class ApiClient {
 
@@ -13,36 +16,33 @@ public class ApiClient {
     public ApiClient() {
         this.baseUrl = ConfigReader.get("base.url");
 
-        System.out.println("API Client Initialized");
-        System.out.println("Base URL: " + baseUrl);
     }
 
-    // GET request
+    // GET request (default)
     public Response get(String endpoint) {
-
-        System.out.println("GET Request -> " + baseUrl + "/" + endpoint);
-
-        Response response = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .when()
                 .get(baseUrl + "/" + endpoint)
                 .then()
                 .extract()
                 .response();
-
-        System.out.println("Status Code: " + response.statusCode());
-        System.out.println("Response: " + response.asString());
-
-        return response;
     }
 
-    // POST request
+    // GET request with headers
+    public Response get(String endpoint, Map<String, String> headers) {
+        return given()
+                .headers(headers)
+                .when()
+                .get(baseUrl + "/" + endpoint)
+                .then()
+                .extract()
+                .response();
+    }
+
+    // POST request (default)
     public Response post(String endpoint, Object body) {
-
-        System.out.println("POST Request -> " + baseUrl + "/" + endpoint);
-        System.out.println("Request Body -> " + body.toString());
-
-        Response response = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .body(body)
                 .when()
@@ -50,13 +50,21 @@ public class ApiClient {
                 .then()
                 .extract()
                 .response();
+    }
 
-        System.out.println("Status Code: " + response.statusCode());
-        System.out.println("Response: " + response.asString());
-
-        return response;
+    // POST request with headers
+    public Response post(String endpoint, Object body, Map<String, String> headers) {
+        return given()
+                .headers(headers)
+                .body(body)
+                .when()
+                .post(baseUrl + "/" + endpoint)
+                .then()
+                .extract()
+                .response();
     }
 }
+
 
 
 

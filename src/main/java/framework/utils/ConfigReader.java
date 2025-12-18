@@ -1,4 +1,4 @@
-package utils;
+package framework.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,18 +9,11 @@ public class ConfigReader {
     private static Properties properties = new Properties();
 
     static {
-        load();
-    }
-
-    private static void load() {
-        String env = System.getProperty("env", "dev");
-        String filePath = "src/test/resources/config-" + env + ".properties";
-
-        try (FileInputStream fis = new FileInputStream(filePath)) {
+        try {
+            FileInputStream fis = new FileInputStream("src/test/resources/config.properties");
             properties.load(fis);
-            System.out.println("Loaded config file: " + filePath);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load config file: " + filePath, e);
+            throw new RuntimeException("Failed to load config.properties file", e);
         }
     }
 
@@ -28,4 +21,5 @@ public class ConfigReader {
         return properties.getProperty(key);
     }
 }
+
 
