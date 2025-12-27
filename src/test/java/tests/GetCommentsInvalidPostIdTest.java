@@ -15,14 +15,14 @@ public class GetCommentsInvalidPostIdTest {
 
         Response response = client.get("/posts/99999/comments");
 
-        // JSONPlaceholder returns ALL comments, not empty list
+        // Invalid postId should return empty comments list
         response.then()
                 .assertThat()
                 .statusCode(200)
-                .and()
-                .body("size()", is(500));
+                .body("size()", is(0));
     }
 }
+
 
 
 
