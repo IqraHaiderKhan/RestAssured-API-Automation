@@ -19,14 +19,15 @@ public class RequestSpecBuilderUtil {
                 .build();
     }
 
-    public static RequestSpecification withHeaders(String baseUrl, Map<String, String> headers) {
+    public static RequestSpecification specWithHeaders(String baseUrl, Map<String, String> headers) {
         return new RequestSpecBuilder()
                 .setBaseUri(baseUrl)
-                .addHeaders(headers)
                 .setContentType(ContentType.JSON)
+                .addHeaders(headers)
                 .build();
     }
 }
+
 
 
 
