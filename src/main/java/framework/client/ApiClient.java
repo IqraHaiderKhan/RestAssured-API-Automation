@@ -3,7 +3,7 @@ package framework.client;
 import static io.restassured.RestAssured.given;
 
 import framework.utils.ConfigReader;
-import framework.utils.RequestSpecBuilderUtil;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import java.util.Map;
@@ -19,44 +19,34 @@ public class ApiClient {
     // GET request (default)
     public Response get(String endpoint) {
         return given()
-                .spec(RequestSpecBuilderUtil.defaultSpec(baseUrl))
+                .contentType(ContentType.JSON)
                 .when()
-                .get(endpoint)
+                .get(baseUrl + "/" + endpoint)
                 .then()
                 .extract()
                 .response();
     }
 
-    // GET request with headers
-    public Response get(String endpoint, Map<String, String> headers) {
-        return given()
-                .spec(RequestSpecBuilderUtil.specWithHeaders(baseUrl, headers))
-                .when()
-                .get(endpoint)
-                .then()
-                .extract()
-                .response();
-    }
+    // ✅ GET request with query parameters
+public Response get(String endpoint, Map<String, Object> queryParams) {
+    return given()
+            .contentType(ContentType.JSON)
+            .queryParams(queryParams)
+            .when()
+            .get(baseUrl + "/" + endpoint)
+            .then()
+            .extract()
+            .response();
+}
+
 
     // POST request (default)
     public Response post(String endpoint, Object body) {
         return given()
-                .spec(RequestSpecBuilderUtil.defaultSpec(baseUrl))
+                .contentType(ContentType.JSON)
                 .body(body)
                 .when()
-                .post(endpoint)
-                .then()
-                .extract()
-                .response();
-    }
-
-    // POST request with headers
-    public Response post(String endpoint, Object body, Map<String, String> headers) {
-        return given()
-                .spec(RequestSpecBuilderUtil.specWithHeaders(baseUrl, headers))
-                .body(body)
-                .when()
-                .post(endpoint)
+                .post(baseUrl + "/" + endpoint)
                 .then()
                 .extract()
                 .response();
