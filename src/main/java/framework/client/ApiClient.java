@@ -1,12 +1,16 @@
 package framework.client;
 
 import static io.restassured.RestAssured.given;
-
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import framework.utils.ConfigReader;
 import io.restassured.http.ContentType;
+import framework.utils.RequestSpecBuilderUtil;
 import io.restassured.response.Response;
 
 import java.util.Map;
+
+
 
 public class ApiClient {
 
@@ -19,17 +23,19 @@ public class ApiClient {
     // GET request (default)
     public Response get(String endpoint) {
         return given()
-                .contentType(ContentType.JSON)
+        .filters(new RequestLoggingFilter(), new ResponseLoggingFilter())
+                .spec(RequestSpecBuilderUtil.buildBaseSpec(baseUrl))
                 .when()
-                .get(baseUrl + "/" + endpoint)
+                .get(endpoint)
                 .then()
                 .extract()
                 .response();
     }
 
-    // ✅ GET request with query parameters
-public Response get(String endpoint, Map<String, Object> queryParams) {
+    // GET request with query params
+public Response getWithQueryParams(String endpoint, Map<String, Object> queryParams) {
     return given()
+        .filters(new RequestLoggingFilter(), new ResponseLoggingFilter())
             .contentType(ContentType.JSON)
             .queryParams(queryParams)
             .when()
@@ -43,15 +49,28 @@ public Response get(String endpoint, Map<String, Object> queryParams) {
     // POST request (default)
     public Response post(String endpoint, Object body) {
         return given()
-                .contentType(ContentType.JSON)
+        .filters(new RequestLoggingFilter(), new ResponseLoggingFilter())
                 .body(body)
                 .when()
-                .post(baseUrl + "/" + endpoint)
+                .post(endpoint)
+                .then()
+                .extract()
+                .response();
+    }
+
+    // POST request with headers
+    public Response post(String endpoint, Object body, Map<String, String> headers) {
+        return given()
+        .filters(new RequestLoggingFilter(), new ResponseLoggingFilter())
+                .body(body)
+                .when()
+                .post(endpoint)
                 .then()
                 .extract()
                 .response();
     }
 }
+
 
 
 
