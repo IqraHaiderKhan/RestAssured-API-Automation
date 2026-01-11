@@ -1,32 +1,24 @@
 package framework.utils;
 
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
 import io.restassured.http.ContentType;
-
-import java.util.Map;
+import io.restassured.specification.RequestSpecification;
 
 public class RequestSpecBuilderUtil {
 
     private RequestSpecBuilderUtil() {
-        // utility class
+        // prevent instantiation
     }
 
-    public static RequestSpecification defaultSpec(String baseUrl) {
+    public static RequestSpecification buildBaseSpec(String baseUrl) {
         return new RequestSpecBuilder()
                 .setBaseUri(baseUrl)
                 .setContentType(ContentType.JSON)
-                .build();
-    }
-
-    public static RequestSpecification specWithHeaders(String baseUrl, Map<String, String> headers) {
-        return new RequestSpecBuilder()
-                .setBaseUri(baseUrl)
-                .setContentType(ContentType.JSON)
-                .addHeaders(headers)
                 .build();
     }
 }
+
+
 
 
 
